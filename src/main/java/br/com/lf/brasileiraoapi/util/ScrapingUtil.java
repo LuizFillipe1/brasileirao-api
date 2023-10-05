@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,8 +17,7 @@ public class ScrapingUtil {
 	private static final String COMPLEMENTO_URL_GOOGLE = "&hl=pt-BR";
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		String url = BASE_URL_GOOGLE + "AS+Roma+Servette" + COMPLEMENTO_URL_GOOGLE;
+		String url = BASE_URL_GOOGLE + "flamengo+vs+corinthians" + COMPLEMENTO_URL_GOOGLE;
 		
 		ScrapingUtil scraping = new ScrapingUtil();
 		scraping.obtemInformacoesPartida(url);
@@ -37,9 +37,24 @@ public class ScrapingUtil {
 				
 				StatusPartida statusPartida = obtemStatusPartida(document);
 				LOGGER.info("Status partida: {}",statusPartida);
+				
+				if (statusPartida != StatusPartida.PARTIDA_NAO_INICIADA) {
+				
+				
 		
 				String tempoPartida = obtemTempoPartida(document);
 				LOGGER.info("Tempo partida: {}", tempoPartida);
+				
+				}
+				
+				String nomeTimeCasa = retornaNomeTimeCasa(document);
+				LOGGER.info("Nome equipe casa: {}", nomeTimeCasa);
+				
+				String nomeTimeVisitante = retornaNomeTimeVisitante(document);
+				LOGGER.info("Nome equipe Visitante: {}", nomeTimeVisitante);
+				
+				//String urlLogoEquipeCasa = retornaLogoEquipeCasa(document);
+				//LOGGER.info("URL logo equipe casa: " + urlLogoEquipeCasa);
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -110,4 +125,30 @@ public class ScrapingUtil {
 			return tempo;
 		}	
 	}
+	
+	public String retornaNomeTimeCasa(Document document) {
+		
+		Element elemento = document.selectFirst("div[class=imso_mh__first-tn-ed imso_mh__tnal-cont imso-tnol]");
+		String nomeEquipe = elemento.select("span").text();
+		
+		return nomeEquipe;
+	}
+	
+	public String retornaNomeTimeVisitante(Document document) {
+		
+		Element elemento = document.selectFirst("div[class=imso_mh__second-tn-ed imso_mh__tnal-cont imso-tnol]");
+		String nomeEquipe = elemento.select("span").text();
+		
+		return nomeEquipe;
+	}
+	/*
+	//Nao funcional
+	public String retornaLogoEquipeCasa(Document document){
+		Element elemento = document.selectFirst("div[class=imso_mh__first-tn-ed imso_mh__tnal-cont imso-tnol]");
+		String urlLogo = "https:" + elemento.select("img[class=imso_btl__mh-logo]").attr("src");
+		return urlLogo;
+		
+	}*/
+
+	
 }
