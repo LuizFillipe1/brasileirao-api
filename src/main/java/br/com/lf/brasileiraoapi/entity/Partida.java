@@ -1,18 +1,20 @@
 package br.com.lf.brasileiraoapi.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
+
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.ApiModelProperty;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -28,50 +30,53 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "partida")
-
-public class Partida implements Serializable{
+public class Partida implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
-		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		@Column(name = "partida_id")
-		private long Id;
-		
-		@Transient
-		private String statusPartidas;
-		
-		@ManyToOne
-		@JoinColumn(name = "equipe_casa_id")
-		private Equipe equipeCasa;
-		
-		@ManyToOne
-		@JoinColumn(name = "equipe_visitante_id")
-		private Equipe equipeVisitante;
-		
-		@Column(name = "placar_equipe_casa")
-		private Integer placarEquipeCasa;
-		
-		@Column(name = "placar_equipe_visitante")
-		private Integer placarEquipeVisitante;
-		
-		@Column(name = "gols_equipe_casa")
-		private String golsEquipeCasa;
-		
-		@Column(name = "gols_equipe_visitante")
-		private String golsEquipeVisitante;
-		
-		@Column(name = "placar_estendido_equipe_casa")
-		private Integer placarEstendidoEquipeCasa;
-		
-		@Column(name = "placar_estendido_equipe_visitante")
-		private Integer placarEstendidoEquipeVisitante;
-		
-		@ApiModelProperty(example = "dd/MM/yyyy HH:mm")
-		@JsonFormat(pattern = "dd/MM/yyyy HH:mm", timezone = "America/Sao_Paulo")
-		@Temporal(TemporalType.TIMESTAMP)
-		@Column(name = "data_hora_partida")
-		private Date dataHoraPartida;
-		
-		@Column(name = "local_partida")
-		private String localParida;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "partida_id")
+	private Long id;
+	
+	@Transient
+	private String statusPartida;
+	
+	@ManyToOne
+	@JoinColumn(name = "equipe_casa_id")
+	private Equipe equipeCasa;
+	
+	@ManyToOne
+	@JoinColumn(name = "equipe_visitante_id")
+	private Equipe equipeVisitante;
+	
+	@Column(name = "placar_equipe_casa")
+	private Integer placarEquipeCasa;
+	
+	@Column(name = "placar_equipe_visitante")
+	private Integer placarEquipeVisitante;
+	
+	@Column(name = "gols_equipe_casa")
+	private String golsEquipeCasa;
+	
+	@Column(name = "gols_equipe_visitante")
+	private String golsEquipeVisitante;
+	
+	@Column(name = "placar_estendido_equipe_casa")
+	private Integer placarEstendidoEquipeCasa;
+	
+	@Column(name = "placar_estendido_equipe_visitante")
+	private Integer placarEstendidoEquipeVisitante;
+	
+	@ApiModelProperty(example = "dd/MM/yyyy HH:mm")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm", timezone = "America/Sao_Paulo")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_hora_partida")
+	private Date dataHoraPartida;
+	
+	@Column(name = "local_partida")
+	private String localPartida;
+	
+	@Column(name = "tempo_partida")
+	private String tempoPartida;
 }
