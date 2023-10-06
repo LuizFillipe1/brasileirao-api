@@ -32,13 +32,7 @@ public class ScrapingUtil {
 	private static final String DIV_PARTIDA_ENCERRADA = "span[class=imso_mh__ft-mtch imso-medium-font imso_mh__ft-mtchc]";
 	private static final String SPAN = "span";
 	private static final String PENALTIS = "Pênaltis";
-	
-	public static void main(String[] args) {
-		String url = BASE_URL_GOOGLE + "Al+Nassr+Riyadh" + COMPLEMENTO_URL_GOOGLE;
-		ScrapingUtil scraping = new ScrapingUtil();
-		scraping.obtemInformacoesPartida(url);
-
-	}
+		
 	public PartidaGoogleDTO obtemInformacoesPartida(String url) {
 			PartidaGoogleDTO partida = new PartidaGoogleDTO();
 			Document document = null;
@@ -50,48 +44,59 @@ public class ScrapingUtil {
 				LOGGER.info("Titulo da pagina: {}", title);
 				
 				StatusPartida statusPartida = obtemStatusPartida(document);
+				partida.setStatusPartida(statusPartida.toString());
 				LOGGER.info("Status partida: {}",statusPartida);
 				
 				if (statusPartida != StatusPartida.PARTIDA_NAO_INICIADA) {
 					
 				String tempoPartida = obtemTempoPartida(document);
+				partida.setTempoPartida(tempoPartida);
 				LOGGER.info("Tempo partida: {}", tempoPartida);
 				
 				Integer placarEquipeCasa = recuperaPlacarEquipe(document, DIV_PLACAR_CASA);
+				partida.setPlacarEquipeCasa(placarEquipeCasa);
 				LOGGER.info("Placar equipe casa: {}",placarEquipeCasa);
 				
 				Integer placarEquipeVisitante = recuperaPlacarEquipe(document, DIV_PLACAR_VISITANTE);
+				partida.setPlacarEquipeVisitante(placarEquipeVisitante);
 				LOGGER.info("Placar equipe visitante: {}",placarEquipeVisitante);
 				
 				String golsEquipeCasa = recuperaGolsEquipe(document, DIV_GOLS_CASA);
+				partida.setGolsEquipeCasa(golsEquipeCasa);
 				LOGGER.info("Gols equipe casa: {} ",golsEquipeCasa);
 				
 				String golsEquipeVisitante = recuperaGolsEquipe(document, DIV_GOLS_VISITANTE);
+				partida.setGolsEquipeVisitante(golsEquipeVisitante);
 				LOGGER.info("Gols equipe casa: {} ",golsEquipeVisitante);
 				
 				
 				Integer placarEstendidoEquepeCasa = buscaPenalidades(document,CASA);
+				partida.setPlacarEstendidoEquipeCasa(placarEstendidoEquepeCasa);
 				LOGGER.info("Placar estendido equipe casa: {}", placarEstendidoEquepeCasa);
 				
 				Integer placarEstendidoEquepeVisitante = buscaPenalidades(document, VISITANTE);
+				partida.setPlacarEstendidoEquipeVisitante(placarEstendidoEquepeVisitante);
 				LOGGER.info("Placar estendido equipe visitante: {}", placarEstendidoEquepeVisitante);
 				
 				}
 				
 				String nomeTimeCasa = retornaNomeTime(document, DIV_NOME_CASA);
+				partida.setNomeEquipeCasa(nomeTimeCasa);
 				LOGGER.info("Nome equipe casa: {}", nomeTimeCasa);
 				
 				String nomeTimeVisitante = retornaNomeTime(document, DIV_NOME_VISITANTE);
+				partida.setNomeEquipeVisitante(nomeTimeVisitante);
 				LOGGER.info("Nome equipe Visitante: {}", nomeTimeVisitante);
 				
 				//String urlLogoEquipeCasa = retornaLogoEquipeCasa(document);
 				//LOGGER.info("URL logo equipe casa: " + urlLogoEquipeCasa);
+				return partida;
 				
 			} catch (IOException e) {
 				LOGGER.error("ERRO AO TENTAR CONECTAR NO GOOGLE COM JSOUP -> {}", e.getMessage());
 			}
 				
-			return partida;
+			return null;
 	}
 	
 	public StatusPartida obtemStatusPartida(Document document) {
@@ -200,5 +205,21 @@ public class ScrapingUtil {
 			valor = 0;	
 		}
 		return valor;
+	}
+	
+	public String montaUrlGoogle(String nomeEquipeCasa, String nomeEquipeVisitante) {
+		
+		try {
+			String equipeCasa = nomeEquipeCasa.replace(" ", "+").replace("-", "+");
+			String equipeVisitante = nomeEquipeVisitante.replace(" ", "+").replace("-", "+");
+			
+			return BASE_URL_GOOGLE +equipeCasa + "+x+" + equipeVisitante + COMPLEMENTO_URL_GOOGLE;
+		} catch (Exception e) {
+			
+			LOGGER.error("ERRO: {}", e.getMessage());
+		}
+		
+		
+		return null;
 	}
 }
