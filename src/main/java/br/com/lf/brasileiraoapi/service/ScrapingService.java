@@ -32,7 +32,9 @@ public class ScrapingService {
 				
 				PartidaGoogleDTO partidaGoogle = scrapingUtil.obtemInformacoesPartida(urlPartida);
 				
-				partidaService.atualizaPartida(partida, partidaGoogle);
+				if (partidaGoogle.getStatusPartida() != StatusPartida.PARTIDA_NAO_INICIADA) {
+					partidaService.atualizaPartida(partida, partidaGoogle);
+				}
 
 			});
 		}
