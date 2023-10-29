@@ -1,6 +1,7 @@
 package br.com.lf.brasileiraoapi.config;
 
 import static springfox.documentation.builders.RequestHandlerSelectors.basePackage;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,7 +19,7 @@ public class SwaggerConfig {
 	private static final String BASE_PACKAGE = "br.com.lf.brasileiraoapi.controller";
 	private static final String API_TITULO = "Brasileirão API - Scrapping";
 	private static final String API_DESCRICAO = "API REST que obtem dados de partidas do Brasileirão em tempo real";
-	private static final String  API_VERSAO = "1.0.0";
+	private static final String API_VERSAO = "1.0.0";
 	private static final String CONTATO_NOME = "Luiz Fillipe Oliveira Morais";
 	private static final String CONTATO_GITHUB = "https://github.com/LuizFillipe1";
 	private static final String CONTATO_EMAIL ="luiz.fillipe.2000@hotmail.com";
