@@ -78,4 +78,6 @@ public class Partida implements Serializable {
 	
 	@Column(name = "tempo_partida")
 	private String tempoPartida;
+	
+	
 }
