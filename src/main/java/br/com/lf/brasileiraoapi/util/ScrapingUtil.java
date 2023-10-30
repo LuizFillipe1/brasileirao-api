@@ -1,6 +1,7 @@
 package br.com.lf.brasileiraoapi.util;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import br.com.lf.brasileiraoapi.dto.PartidaGoogleDTO;
 
+@Service
 public class ScrapingUtil {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScrapingUtil.class);
@@ -44,7 +47,7 @@ public class ScrapingUtil {
 				LOGGER.info("Titulo da pagina: {}", title);
 				
 				StatusPartida statusPartida = obtemStatusPartida(document);
-				partida.setStatusPartida(statusPartida.toString());
+				partida.setStatusPartida(statusPartida);
 				LOGGER.info("Status partida: {}",statusPartida);
 				
 				if (statusPartida != StatusPartida.PARTIDA_NAO_INICIADA) {
